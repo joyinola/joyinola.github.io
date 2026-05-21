@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Simbiat Damilola Adetoro — AI Researcher & Engineer. Medical imaging, deep learning, resource-efficient AI for healthcare."/>
+<title>Simbiat Adetoro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#090e1a;
+  --bg2:#0d1425;
+  --bg3:#111d35;
+  --surface:#13203a;
+  --surface2:#1a2d4a;
+  --border:#1e3050;
+  --border2:#2a4268;
+  --ink:#e8edf5;
+  --ink-mid:#8fa8c8;
+  --ink-soft:#4d6a8a;
+  --accent:#4f9eff;
+  --accent2:#00e5b0;
+  --accent3:#ff6b6b;
+  --glow:rgba(79,158,255,0.15);
+  --glow2:rgba(0,229,176,0.1);
+  --serif:'Syne',sans-serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── GRID BACKGROUND ── */
+.grid-bg{
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(79,158,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,158,255,0.03) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:100;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 clamp(1.5rem,5vw,4rem);
+  background:rgba(9,14,26,0.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+
+.nav-logo{
+  font-family:var(--serif);
+  font-size:1.1rem;
+  font-weight:800;
+  color:var(--ink);
+  text-decoration:none;
+  letter-spacing:-0.02em;
+}
+
+.nav-logo span{color:var(--accent)}
+
+.nav-links{display:flex;gap:2rem;list-style:none}
+
+.nav-links a{
+  font-size:0.8rem;
+  color:var(--ink-soft);
+  text-decoration:none;
+  font-weight:500;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  transition:color 0.2s;
+}
+
+.nav-links a:hover{color:var(--accent)}
+
+/* ── MAIN ── */
+main{
+  max-width:900px;
+  margin:0 auto;
+  padding:0 clamp(1.5rem,5vw,2rem);
+  position:relative;
+  z-index:1;
+}
+
+section{padding:6rem 0 3rem}
+
+/* ── HERO ── */
+#home{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding-top:64px;
+}
+
+.hero-eyebrow{
+  font-family:var(--mono);
+  font-size:0.8rem;
+  color:var(--accent2);
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  margin-bottom:1.5rem;
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+}
+
+.hero-eyebrow::before{
+  content:'';
+  width:32px;height:1px;
+  background:var(--accent2);
+}
+
+.hero-name{
+  font-family:var(--serif);
+  font-size:clamp(3rem,8vw,5.5rem);
+  font-weight:800;
+  line-height:1.0;
+  letter-spacing:-0.03em;
+  color:var(--ink);
+  margin-bottom:0.5rem;
+}
+
+.hero-name .highlight{
+  color:transparent;
+  -webkit-text-stroke:1px var(--accent);
+}
+
+.hero-title{
+  font-family:var(--serif);
+  font-size:clamp(1.1rem,2.5vw,1.5rem);
+  font-weight:600;
+  color:var(--ink-mid);
+  margin-bottom:2rem;
+  letter-spacing:-0.01em;
+}
+
+.hero-bio{
+  font-size:1rem;
+  color:var(--ink-mid);
+  max-width:580px;
+  margin-bottom:2.5rem;
+  font-weight:300;
+  line-height:1.8;
+}
+
+.hero-bio strong{color:var(--ink);font-weight:500}
+
+.hero-location{
+  font-family:var(--mono);
+  font-size:0.78rem;
+  color:var(--ink-soft);
+  margin-bottom:2.5rem;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+}
+
+.location-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--accent2);
+  animation:pulse 2s ease infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:0.5;transform:scale(0.8)}
+}
+
+.hero-ctas{display:flex;flex-wrap:wrap;gap:0.75rem}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  font-size:0.82rem;
+  font-weight:500;
+  padding:0.6rem 1.4rem;
+  border-radius:4px;
+  text-decoration:none;
+  transition:all 0.25s;
+  font-family:var(--sans);
+  letter-spacing:0.02em;
+}
+
+.btn-primary{
+  background:var(--accent);
+  color:#090e1a;
+  border:1px solid var(--accent);
+}
+
+.btn-primary:hover{
+  background:transparent;
+  color:var(--accent);
+  box-shadow:0 0 20px var(--glow);
+}
+
+.btn-ghost{
+  background:transparent;
+  color:var(--ink-mid);
+  border:1px solid var(--border2);
+}
+
+.btn-ghost:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  background:var(--glow);
+}
+
+/* ── SECTION HEADER ── */
+.sec-header{margin-bottom:3rem}
+
+.sec-label{
+  font-family:var(--mono);
+  font-size:0.72rem;
+  color:var(--accent);
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  margin-bottom:0.6rem;
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+}
+
+.sec-label::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--border);
+  max-width:60px;
+}
+
+.sec-title{
+  font-family:var(--serif);
+  font-size:clamp(1.8rem,4vw,2.4rem);
+  font-weight:800;
+  color:var(--ink);
+  letter-spacing:-0.02em;
+  line-height:1.1;
+}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:1.5rem}
+
+.timeline::before{
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom, var(--accent), var(--border), transparent);
+}
+
+.tl-item{
+  position:relative;
+  padding-bottom:2.5rem;
+  padding-left:1.5rem;
+}
+
+.tl-item::before{
+  content:'';
+  position:absolute;
+  left:-5px;
+  top:6px;
+  width:10px;height:10px;
+  border-radius:50%;
+  background:var(--bg);
+  border:1.5px solid var(--accent);
+}
+
+.tl-item.active::before{
+  background:var(--accent);
+  box-shadow:0 0 12px var(--glow);
+}
+
+.tl-date{
+  font-family:var(--mono);
+  font-size:0.72rem;
+  color:var(--accent2);
+  letter-spacing:0.08em;
+  margin-bottom:0.3rem;
+}
+
+.tl-title{
+  font-family:var(--serif);
+  font-size:1.05rem;
+  font-weight:700;
+  color:var(--ink);
+  margin-bottom:0.3rem;
+}
+
+.tl-sub{
+  font-size:0.875rem;
+  color:var(--ink-mid);
+  font-weight:300;
+}
+
+/* ── RESEARCH CARDS ── */
+.research-stack{display:flex;flex-direction:column;gap:1.5rem}
+
+.r-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:2rem;
+  position:relative;
+  overflow:hidden;
+  transition:border-color 0.3s, transform 0.3s;
+}
+
+.r-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg, var(--accent), var(--accent2));
+  opacity:0;
+  transition:opacity 0.3s;
+}
+
+.r-card:hover{
+  border-color:var(--border2);
+  transform:translateY(-2px);
+}
+
+.r-card:hover::before{opacity:1}
+
+.r-card-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:0.75rem;
+  flex-wrap:wrap;
+}
+
+.r-badges{display:flex;gap:0.5rem;flex-wrap:wrap}
+
+.badge{
+  font-family:var(--mono);
+  font-size:0.65rem;
+  font-weight:500;
+  padding:0.2rem 0.65rem;
+  border-radius:3px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+
+.badge-venue{
+  background:rgba(79,158,255,0.12);
+  color:var(--accent);
+  border:1px solid rgba(79,158,255,0.25);
+}
+
+.badge-review{
+  background:rgba(255,200,0,0.08);
+  color:#f0c040;
+  border:1px solid rgba(255,200,0,0.2);
+}
+
+.badge-ongoing{
+  background:rgba(0,229,176,0.08);
+  color:var(--accent2);
+  border:1px solid rgba(0,229,176,0.2);
+}
+
+.r-title{
+  font-family:var(--serif);
+  font-size:1.15rem;
+  font-weight:700;
+  color:var(--ink);
+  line-height:1.3;
+  margin-bottom:0.5rem;
+}
+
+.r-authors{
+  font-size:0.82rem;
+  color:var(--ink-soft);
+  font-style:italic;
+  margin-bottom:0.75rem;
+}
+
+.r-desc{
+  font-size:0.9rem;
+  color:var(--ink-mid);
+  font-weight:300;
+  line-height:1.75;
+  margin-bottom:1rem;
+}
+
+/* ── METRICS ROW ── */
+.metrics{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0.6rem;
+  margin-bottom:1rem;
+}
+
+.metric{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:0.35rem 0.75rem;
+  font-family:var(--mono);
+}
+
+.metric-val{
+  font-size:0.88rem;
+  font-weight:500;
+  color:var(--accent2);
+}
+
+.metric-label{
+  font-size:0.68rem;
+  color:var(--ink-soft);
+  margin-left:0.3rem;
+}
+
+.r-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1rem}
+
+.tag{
+  font-size:0.72rem;
+  padding:0.2rem 0.6rem;
+  border-radius:3px;
+  background:var(--bg3);
+  color:var(--ink-soft);
+  border:1px solid var(--border);
+  font-weight:400;
+}
+
+.r-links{display:flex;gap:1rem;flex-wrap:wrap}
+
+.r-link{
+  font-family:var(--mono);
+  font-size:0.75rem;
+  color:var(--accent);
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:0.35rem;
+  transition:color 0.2s;
+}
+
+.r-link:hover{color:var(--accent2)}
+
+.r-link::before{content:'→';font-size:0.8rem}
+
+/* ── PROJECTS ── */
+.proj-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.25rem;
+}
+
+.proj-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:1.75rem;
+  transition:border-color 0.3s, transform 0.3s;
+  position:relative;
+  overflow:hidden;
+}
+
+.proj-card:hover{
+  border-color:var(--border2);
+  transform:translateY(-3px);
+}
+
+.proj-num{
+  font-family:var(--mono);
+  font-size:0.65rem;
+  color:var(--ink-soft);
+  margin-bottom:1rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.proj-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--accent2);
+}
+
+.proj-title{
+  font-family:var(--serif);
+  font-size:1.05rem;
+  font-weight:700;
+  color:var(--ink);
+  margin-bottom:0.5rem;
+  line-height:1.3;
+}
+
+.proj-desc{
+  font-size:0.86rem;
+  color:var(--ink-mid);
+  font-weight:300;
+  margin-bottom:1rem;
+  line-height:1.7;
+}
+
+.proj-stack{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.25rem}
+
+/* ── CONTACT ── */
+.contact-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1rem;
+  margin-top:2rem;
+}
+
+.contact-card{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:1.25rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  text-decoration:none;
+  transition:border-color 0.25s, background 0.25s;
+}
+
+.contact-card:hover{
+  border-color:var(--accent);
+  background:var(--glow);
+}
+
+.cc-icon{
+  width:38px;height:38px;
+  border-radius:6px;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+
+.cc-icon svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.cc-label{font-family:var(--mono);font-size:0.65rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.08em}
+.cc-val{font-size:0.875rem;color:var(--ink);font-weight:500}
+
+/* ── FOOTER ── */
+footer{
+  text-align:center;
+  padding:3rem 1rem 2rem;
+  font-family:var(--mono);
+  font-size:0.72rem;
+  color:var(--ink-soft);
+  border-top:1px solid var(--border);
+  position:relative;
+  z-index:1;
+}
+
+footer span{color:var(--accent)}
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 0.65s ease, transform 0.65s ease;
+}
+
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .nav-links{gap:1rem}
+  .nav-links a{font-size:0.7rem}
+  .hero-name{font-size:2.8rem}
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <a class="nav-logo" href="#home">S<span>.</span>Adetoro</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-eyebrow">AI Researcher &amp; Engineer</div>
+    <h1 class="hero-name">Simbiat<br><span class="highlight">Adetoro</span></h1>
+    <p class="hero-title">Building AI that works where it matters most.</p>
+    <p class="hero-bio">
+      Graduate researcher at <strong>Carnegie Mellon University Africa</strong> working at the intersection
+      of <strong>deep learning and medical imaging</strong>. My research focuses on making diagnostic AI
+      accurate, efficient, and deployable in low-resource clinical settings across Africa.
+    </p>
+    <div class="hero-location">
+      <span class="location-dot"></span>
+      Kigali, Rwanda · CMU Africa
+    </div>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="YOUR_CV_LINK" target="_blank">↓ Download CV</a>
+      <a class="btn btn-ghost" href="https://github.com/joyinola" target="_blank">GitHub</a>
+      <a class="btn btn-ghost" href="YOUR_LINKEDIN" target="_blank">LinkedIn</a>
+      <a class="btn btn-ghost" href="mailto:your@email.com">Email</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="sec-header reveal">
+      <div class="sec-label">Background</div>
+      <h2 class="sec-title">The Story So Far</h2>
+    </div>
+
+    <div class="timeline reveal">
+
+      <div class="tl-item active">
+        <div class="tl-date">2024 — Present</div>
+        <div class="tl-title">Graduate Researcher · Carnegie Mellon University Africa</div>
+        <div class="tl-sub">Kigali, Rwanda. Researching deep learning for medical imaging — brain tumor classification, diabetic eye disease screening, and MRI reconstruction for resource-limited settings.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2024</div>
+        <div class="tl-title">Software Engineer — Full-Stack & Backend</div>
+        <div class="tl-sub">Built production systems with Django and FastAPI. Shipped ToGo, a real-time ridesharing platform still in active use, with WebSocket-powered live chat, JWT + 2FA auth, and cloud deployment.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">2018 — 2024</div>
+        <div class="tl-title">B.Sc. Computer Science / Software Engineering</div>
+        <div class="tl-sub">Undergraduate studies. Developed a strong foundation in software engineering, algorithms, and systems — the base that now grounds my AI research work.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="sec-header reveal">
+      <div class="sec-label">Publications</div>
+      <h2 class="sec-title">Research</h2>
+    </div>
+
+    <div class="research-stack">
+
+      <!-- FPN-Mamba -->
+      <div class="r-card reveal">
+        <div class="r-card-top">
+          <div class="r-badges">
+            <span class="badge badge-review">Under Review</span>
+          </div>
+          <div class="r-badges">
+            <span class="badge badge-venue">Brain Tumor · MRI Classification</span>
+          </div>
+        </div>
+        <div class="r-title">FPN-Mamba: A Feature Pyramid Network with Bidirectional State Space Models for Medical MRI Image Classification</div>
+        <div class="r-authors">Simbiat Damilola Adetoro, Samuel Akinwumi Adeniji · Carnegie Mellon University</div>
+        <div class="r-desc">
+          Integrates a Feature Pyramid Network with Bidirectional Mamba State Space Models for multi-scale MRI classification. A LocalityMixing block at each pyramid level fuses local depthwise convolution with global Mamba context via a learned gate — preserving fine spatial structure while operating in linear time O(L) instead of the quadratic O(L²) cost of self-attention. Applied to medulloblastoma screening (the most common malignant brain tumor in children), the model surpasses the InceptentionNet baseline on four of five metrics.
+        </div>
+        <div class="metrics">
+          <div class="metric"><span class="metric-val">98.42%</span><span class="metric-label">Accuracy</span></div>
+          <div class="metric"><span class="metric-val">95.51%</span><span class="metric-label">F1-Score</span></div>
+          <div class="metric"><span class="metric-val">97.71%</span><span class="metric-label">Sensitivity</span></div>
+          <div class="metric"><span class="metric-val">96.67%</span><span class="metric-label">Specificity</span></div>
+          <div class="metric"><span class="metric-val">99.16%</span><span class="metric-label">AUC</span></div>
+        </div>
+        <div class="r-tags">
+          <span class="tag">Feature Pyramid Network</span>
+          <span class="tag">Mamba / SSM</span>
+          <span class="tag">Brain Tumor</span>
+          <span class="tag">Medulloblastoma</span>
+          <span class="tag">Medical Imaging</span>
+          <span class="tag">EfficientNet-B2</span>
+        </div>
+        <div class="r-links">
+          <a class="r-link" href="https://github.com/Tech-sam-90/fpn-inceptentionnet" target="_blank">Code</a>
+        </div>
+      </div>
+
+      <!-- DR/DME -->
+      <div class="r-card reveal">
+        <div class="r-card-top">
+          <div class="r-badges">
+            <span class="badge badge-review">Under Review</span>
+            <span class="badge badge-venue">IJCAI-ECAI 2026</span>
+          </div>
+        </div>
+        <div class="r-title">Resource-Efficient Two-Stage Diabetic Retinopathy and Macular Edema Screening via Cascade Classification and Offline Mobile Deployment</div>
+        <div class="r-authors">Adetoro Simbiat Damilola, Lobago Moan, Godwill Nkwain Nyong, Boniface Godwin · Carnegie Mellon University Africa</div>
+        <div class="r-desc">
+          A two-stage cascade framework for joint DR severity grading and DME detection, designed for CPU-only deployment in low-resource clinics. Module 1 performs five-class DR grading (MobileNetV2, F1=0.726); its prediction serves as a clinically motivated auxiliary input to Module 2, a PCA-compressed dual-backbone soft-voting ensemble for binary DME detection. The full pipeline is packaged as <strong>DR-tictation</strong> — an offline mobile app that delivers simultaneous DR and DME outputs in under one second via a clip-on smartphone fundus lens, with no GPU or internet required.
+        </div>
+        <div class="metrics">
+          <div class="metric"><span class="metric-val">0.726</span><span class="metric-label">DR F1</span></div>
+          <div class="metric"><span class="metric-val">0.803</span><span class="metric-label">DME F1</span></div>
+          <div class="metric"><span class="metric-val">0.952</span><span class="metric-label">ROC-AUC</span></div>
+          <div class="metric"><span class="metric-val">4MB</span><span class="metric-label">INT8 Model</span></div>
+          <div class="metric"><span class="metric-val">&lt;1s</span><span class="metric-label">Inference</span></div>
+        </div>
+        <div class="r-tags">
+          <span class="tag">Diabetic Retinopathy</span>
+          <span class="tag">Macular Edema</span>
+          <span class="tag">Mobile AI</span>
+          <span class="tag">Edge Deployment</span>
+          <span class="tag">MobileNetV2</span>
+          <span class="tag">LMIC Healthcare</span>
+          <span class="tag">EfficientNet-B2</span>
+        </div>
+        <div class="r-links">
+          <a class="r-link" href="https://github.com/joyinola/AI-Supported-Diabetic-Retinopathy-Diabetic-Macular-Edema-Screening-" target="_blank">Code</a>
+        </div>
+      </div>
+
+      <!-- Uncertainty MRI -->
+      <div class="r-card reveal">
+        <div class="r-card-top">
+          <div class="r-badges">
+            <span class="badge badge-ongoing">● Ongoing</span>
+          </div>
+          <div class="r-badges">
+            <span class="badge badge-venue">MRI Reconstruction</span>
+          </div>
+        </div>
+        <div class="r-title">Uncertainty-Aware Reconstruction for Low-Field MRI Scans</div>
+        <div class="r-authors">Simbiat Damilola Adetoro et al. · Carnegie Mellon University Africa</div>
+        <div class="r-desc">
+          Ongoing research developing probabilistic deep learning models for enhancing image quality in low-field MRI systems — the type of scanner available in rural African hospitals. Incorporates uncertainty estimation to communicate reconstruction confidence to clinicians, improving reliability and trustworthiness of AI-enhanced scans in settings where high-field MRI is inaccessible.
+        </div>
+        <div class="r-tags">
+          <span class="tag">MRI Reconstruction</span>
+          <span class="tag">Uncertainty Quantification</span>
+          <span class="tag">Low-Resource Healthcare</span>
+          <span class="tag">Probabilistic Deep Learning</span>
+        </div>
+        <div class="r-links">
+          <a class="r-link" href="https://github.com/joyinola/Uncertainty-Aware-Reconstruction-for-Low-Field-MRI-Scans" target="_blank">Code</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="sec-header reveal">
+      <div class="sec-label">Engineering</div>
+      <h2 class="sec-title">Projects</h2>
+    </div>
+
+    <div class="proj-grid">
+
+      <div class="proj-card reveal">
+        <div class="proj-num"><span>01 / Engineering</span><span class="proj-dot"></span></div>
+        <div class="proj-title">ToGo — Ridesharing Platform</div>
+        <div class="proj-desc">Real-time ridesharing app still in active use. Live in-app chat via Django Channels &amp; WebSockets, JWT + TOTP two-factor auth, Cloudinary media, PostgreSQL, deployed on Heroku with Daphne ASGI.</div>
+        <div class="proj-stack">
+          <span class="tag">Django</span><span class="tag">WebSockets</span><span class="tag">Redis</span><span class="tag">PostgreSQL</span><span class="tag">JWT + 2FA</span>
+        </div>
+        <a class="btn btn-ghost" href="https://github.com/joyinola/Django-Ridesharing-App" target="_blank" style="font-size:0.78rem;padding:0.45rem 1rem;">View Code</a>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-num"><span>02 / Engineering</span><span class="proj-dot"></span></div>
+        <div class="proj-title">DR-tictation — Mobile Screening App</div>
+        <div class="proj-desc">Offline-first mobile application packaging the two-stage DR/DME pipeline. Runs entirely on-device with no internet required — designed for eye specialists in rural clinics with a clip-on smartphone fundus lens.</div>
+        <div class="proj-stack">
+          <span class="tag">Mobile AI</span><span class="tag">Edge Inference</span><span class="tag">MobileNetV2</span><span class="tag">INT8 Quantisation</span>
+        </div>
+        <a class="btn btn-ghost" href="https://github.com/joyinola/AI-Supported-Diabetic-Retinopathy-Diabetic-Macular-Edema-Screening-" target="_blank" style="font-size:0.78rem;padding:0.45rem 1rem;">View Code</a>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-num"><span>03 / Engineering</span><span class="proj-dot"></span></div>
+        <div class="proj-title">Customer Management System</div>
+        <div class="proj-desc">Full-featured CRM for managing customer records and linked projects. Django backend with environment-based config, user authentication, and clean admin interface for business workflows.</div>
+        <div class="proj-stack">
+          <span class="tag">Django</span><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">CRM</span>
+        </div>
+        <a class="btn btn-ghost" href="https://github.com/joyinola/Customer-Management-System" target="_blank" style="font-size:0.78rem;padding:0.45rem 1rem;">View Code</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="sec-header reveal">
+      <div class="sec-label">Get in Touch</div>
+      <h2 class="sec-title">Contact</h2>
+    </div>
+    <p class="reveal" style="color:var(--ink-mid);font-weight:300;max-width:480px;margin-bottom:0.5rem">
+      Open to conversations about research, collaboration, and opportunities at the intersection of AI and healthcare.
+    </p>
+    <div class="contact-row reveal">
+
+      <a class="contact-card" href="mailto:damilolaadetoro1@gmail.com">
+        <div class="cc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg></div>
+        <div><div class="cc-label">Email</div><div class="cc-val">damilolaadetoro1@gmail.com</div></div>
+      </a>
+
+      <a class="contact-card" href="https://github.com/joyinola" target="_blank">
+        <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></div>
+        <div><div class="cc-label">GitHub</div><div class="cc-val">joyinola</div></div>
+      </a>
+
+      <a class="contact-card" href="linkedin.com/in/damilolaadetoro" target="_blank">
+        <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+        <div><div class="cc-label">LinkedIn</div><div class="cc-val">Simbiat Adetoro</div></div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>Simbiat Damilola Adetoro</span> © 2026
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.style.transitionDelay = (i % 4) * 0.08 + 's';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
