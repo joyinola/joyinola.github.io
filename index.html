@@ -3,39 +3,43 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="Simbiat Damilola Adetoro — AI Researcher & Engineer. Medical imaging, deep learning, resource-efficient AI for healthcare."/>
+<meta name="description" content="Simbiat Damilola Adetoro — AI Researcher and Engineer. Medical imaging, deep learning, resource-efficient AI for healthcare."/>
 <title>Simbiat Adetoro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Inconsolata:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --bg:#090e1a;
-  --bg2:#0d1425;
-  --bg3:#111d35;
-  --surface:#13203a;
-  --surface2:#1a2d4a;
-  --border:#1e3050;
-  --border2:#2a4268;
-  --ink:#e8edf5;
-  --ink-mid:#8fa8c8;
-  --ink-soft:#4d6a8a;
-  --accent:#4f9eff;
-  --accent2:#00e5b0;
-  --accent3:#ff6b6b;
-  --glow:rgba(79,158,255,0.15);
-  --glow2:rgba(0,229,176,0.1);
-  --serif:'Syne',sans-serif;
-  --sans:'Inter',sans-serif;
-  --mono:'JetBrains Mono',monospace;
+  --dark:#111318;
+  --dark2:#181c24;
+  --dark3:#1e2230;
+  --milk:#f2ede4;
+  --milk2:#ece6da;
+  --milk3:#e4ddd0;
+  --ink-dark:#e8eaf2;
+  --ink-dark2:#9aa0b8;
+  --ink-dark3:#555e78;
+  --ink-dark4:#363d52;
+  --ink-light:#1c1a18;
+  --ink-light2:#3d3830;
+  --ink-light3:#7a7060;
+  --ink-light4:#b0a490;
+  --rust:#c8482e;
+  --rust2:#de5c40;
+  --rust-glow:rgba(200,72,46,0.18);
+  --gold:#c49a3c;
+  --border-dark:#252b3a;
+  --border-dark2:#303a50;
+  --border-milk:#d8d0c2;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --mono:'Inconsolata',monospace;
 }
 
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
 
 body{
-  background:var(--bg);
-  color:var(--ink);
   font-family:var(--sans);
   font-size:16px;
   line-height:1.7;
@@ -43,830 +47,1021 @@ body{
   overflow-x:hidden;
 }
 
-/* ── NOISE OVERLAY ── */
-body::before{
+/* grain overlay */
+body::after{
   content:'';
   position:fixed;
   inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E");
   pointer-events:none;
-  z-index:0;
+  z-index:9999;
 }
 
-/* ── GRID BACKGROUND ── */
-.grid-bg{
+/* SIDE NAV */
+#side-nav{
   position:fixed;
-  inset:0;
-  background-image:
-    linear-gradient(rgba(79,158,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79,158,255,0.03) 1px, transparent 1px);
-  background-size:60px 60px;
-  pointer-events:none;
-  z-index:0;
+  right:2rem;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:200;
+  display:flex;
+  flex-direction:column;
+  gap:1.1rem;
+  align-items:flex-end;
 }
 
-/* ── NAV ── */
-nav{
+.sn-wrap{
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+.sn-label{
+  font-family:var(--mono);
+  font-size:0.58rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  opacity:0;
+  transform:translateX(6px);
+  transition:opacity 0.2s,transform 0.2s,color 0.2s;
+  pointer-events:none;
+  white-space:nowrap;
+}
+
+.sn-wrap:hover .sn-label{opacity:1;transform:translateX(0)}
+.sn-wrap.active .sn-label{opacity:1;transform:translateX(0);color:var(--rust) !important}
+
+.sn-dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:transparent;
+  border:1.5px solid currentColor;
+  transition:all 0.3s;
+  flex-shrink:0;
+}
+
+.sn-wrap.active .sn-dot,
+.sn-wrap:hover .sn-dot{
+  background:var(--rust);
+  border-color:var(--rust) !important;
+  box-shadow:0 0 8px var(--rust-glow);
+  transform:scale(1.3);
+}
+
+/* dark section side-nav coloring */
+.dark-section #side-nav .sn-label,
+#side-nav.on-dark .sn-label{color:var(--ink-dark3)}
+#side-nav.on-dark .sn-dot{border-color:var(--ink-dark4)}
+#side-nav.on-light .sn-label{color:var(--ink-light3)}
+#side-nav.on-light .sn-dot{border-color:var(--ink-light4)}
+
+/* TOP NAV */
+#top-nav{
   position:fixed;
   top:0;left:0;right:0;
   z-index:100;
-  height:64px;
+  height:68px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 clamp(1.5rem,5vw,4rem);
-  background:rgba(9,14,26,0.85);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
+  padding:0 clamp(2rem,6vw,5rem);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;
+  transition:background 0.4s,border-color 0.3s;
 }
+
+#top-nav.dark-nav{background:rgba(17,19,24,0.9);border-color:var(--border-dark)}
+#top-nav.light-nav{background:rgba(242,237,228,0.92);border-color:var(--border-milk)}
 
 .nav-logo{
   font-family:var(--serif);
-  font-size:1.1rem;
-  font-weight:800;
-  color:var(--ink);
+  font-size:1.2rem;
+  font-weight:900;
   text-decoration:none;
   letter-spacing:-0.02em;
+  transition:color 0.3s;
 }
 
-.nav-logo span{color:var(--accent)}
+.nav-logo em{color:var(--rust);font-style:normal}
 
-.nav-links{display:flex;gap:2rem;list-style:none}
+.dark-nav .nav-logo{color:var(--ink-dark)}
+.light-nav .nav-logo{color:var(--ink-light)}
+
+.nav-links{display:flex;gap:2.5rem;list-style:none}
 
 .nav-links a{
-  font-size:0.8rem;
-  color:var(--ink-soft);
-  text-decoration:none;
+  font-family:var(--mono);
+  font-size:0.73rem;
   font-weight:500;
-  letter-spacing:0.08em;
+  text-decoration:none;
+  letter-spacing:0.1em;
   text-transform:uppercase;
   transition:color 0.2s;
 }
 
-.nav-links a:hover{color:var(--accent)}
+.dark-nav .nav-links a{color:var(--ink-dark3)}
+.dark-nav .nav-links a:hover{color:var(--rust)}
+.light-nav .nav-links a{color:var(--ink-light3)}
+.light-nav .nav-links a:hover{color:var(--rust)}
 
-/* ── MAIN ── */
-main{
-  max-width:900px;
-  margin:0 auto;
-  padding:0 clamp(1.5rem,5vw,2rem);
-  position:relative;
-  z-index:1;
-}
-
-section{padding:6rem 0 3rem}
-
-/* ── HERO ── */
-#home{
+/* SECTIONS */
+section{
   min-height:100vh;
+  scroll-snap-align:start;
   display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding-top:64px;
+  align-items:center;
+  position:relative;
+  padding:100px clamp(2rem,8vw,5.5rem) 80px;
 }
 
-.hero-eyebrow{
+section.s-dark{background:var(--dark);color:var(--ink-dark)}
+section.s-milk{background:var(--milk);color:var(--ink-light)}
+
+.section-inner{max-width:1100px;margin:0 auto;width:100%}
+
+.section-tag{
   font-family:var(--mono);
-  font-size:0.8rem;
-  color:var(--accent2);
-  letter-spacing:0.12em;
+  font-size:0.68rem;
+  letter-spacing:0.18em;
   text-transform:uppercase;
-  margin-bottom:1.5rem;
+  color:var(--rust);
+  margin-bottom:1.25rem;
   display:flex;
   align-items:center;
   gap:0.75rem;
 }
 
-.hero-eyebrow::before{
+.section-tag::before{content:'';width:26px;height:1.5px;background:var(--rust)}
+
+/* ==============================
+   HERO — photo as right half bg
+   ============================== */
+#home{
+  background:var(--dark);
+  overflow:hidden;
+  padding:0;
+  align-items:stretch;
+}
+
+/* left text pane */
+.hero-left{
+  width:55%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:120px clamp(2rem,6vw,5.5rem) 80px;
+  position:relative;
+  z-index:2;
+}
+
+/* right photo pane — full height */
+.hero-right{
+  position:absolute;
+  top:0;right:0;
+  width:45%;
+  height:100%;
+  z-index:1;
+}
+
+/* photo sits here — replace .hero-photo-placeholder with an <img> */
+.hero-photo-placeholder{
+  width:100%;
+  height:100%;
+  background:linear-gradient(160deg, #1a2035 0%, #0e121c 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* when you add your photo:
+   <img src="photo.jpg" class="hero-photo-img" alt="Simbiat Adetoro"/> */
+.hero-photo-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center top;
+  display:block;
+}
+
+/* ghost initials inside placeholder */
+.hero-photo-placeholder::after{
+  content:'SA';
+  font-family:var(--serif);
+  font-size:30vw;
+  font-weight:900;
+  font-style:italic;
+  color:rgba(255,255,255,0.03);
+  position:absolute;
+  line-height:1;
+  user-select:none;
+}
+
+/* dark gradient so text stays readable regardless of photo */
+.hero-right::after{
   content:'';
-  width:32px;height:1px;
-  background:var(--accent2);
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to right, var(--dark) 0%, transparent 35%);
+  z-index:2;
+  pointer-events:none;
+}
+
+.hero-greeting{
+  font-family:var(--mono);
+  font-size:0.78rem;
+  color:var(--rust);
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  margin-bottom:1.5rem;
 }
 
 .hero-name{
   font-family:var(--serif);
-  font-size:clamp(3rem,8vw,5.5rem);
-  font-weight:800;
+  font-size:clamp(3.5rem,7vw,5.8rem);
+  font-weight:900;
   line-height:1.0;
   letter-spacing:-0.03em;
-  color:var(--ink);
-  margin-bottom:0.5rem;
+  color:var(--ink-dark);
+  margin-bottom:0.2rem;
 }
 
-.hero-name .highlight{
-  color:transparent;
-  -webkit-text-stroke:1px var(--accent);
-}
-
-.hero-title{
+.hero-name2{
   font-family:var(--serif);
-  font-size:clamp(1.1rem,2.5vw,1.5rem);
-  font-weight:600;
-  color:var(--ink-mid);
+  font-size:clamp(3rem,6vw,5rem);
+  font-weight:700;
+  font-style:italic;
+  color:var(--rust);
+  line-height:1.0;
+  letter-spacing:-0.03em;
   margin-bottom:2rem;
-  letter-spacing:-0.01em;
 }
 
-.hero-bio{
-  font-size:1rem;
-  color:var(--ink-mid);
-  max-width:580px;
-  margin-bottom:2.5rem;
+.hero-role{
+  font-size:0.975rem;
+  color:var(--ink-dark2);
   font-weight:300;
-  line-height:1.8;
+  max-width:460px;
+  margin-bottom:3rem;
+  line-height:1.85;
 }
 
-.hero-bio strong{color:var(--ink);font-weight:500}
+.hero-role strong{color:var(--ink-dark);font-weight:500}
 
-.hero-location{
-  font-family:var(--mono);
-  font-size:0.78rem;
-  color:var(--ink-soft);
-  margin-bottom:2.5rem;
+.hero-btns{display:flex;gap:0.85rem;flex-wrap:wrap}
+
+.hero-scroll{
+  position:absolute;
+  bottom:3rem;
   display:flex;
   align-items:center;
-  gap:0.5rem;
+  gap:0.85rem;
+  font-family:var(--mono);
+  font-size:0.63rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--ink-dark4);
+  text-decoration:none;
+  transition:color 0.2s;
 }
 
-.location-dot{
-  width:6px;height:6px;
-  border-radius:50%;
-  background:var(--accent2);
-  animation:pulse 2s ease infinite;
-}
+.hero-scroll::before{content:'';width:36px;height:1px;background:currentColor;transition:width 0.3s}
+.hero-scroll:hover{color:var(--rust)}
+.hero-scroll:hover::before{width:56px}
 
-@keyframes pulse{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:0.5;transform:scale(0.8)}
-}
-
-.hero-ctas{display:flex;flex-wrap:wrap;gap:0.75rem}
-
+/* BUTTONS */
 .btn{
   display:inline-flex;
   align-items:center;
   gap:0.5rem;
-  font-size:0.82rem;
+  font-family:var(--mono);
+  font-size:0.73rem;
   font-weight:500;
-  padding:0.6rem 1.4rem;
-  border-radius:4px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  padding:0.7rem 1.6rem;
   text-decoration:none;
   transition:all 0.25s;
-  font-family:var(--sans);
-  letter-spacing:0.02em;
 }
 
-.btn-primary{
-  background:var(--accent);
-  color:#090e1a;
-  border:1px solid var(--accent);
+.btn-solid{background:var(--rust);color:#fff;border:1.5px solid var(--rust)}
+.btn-solid:hover{background:var(--rust2);border-color:var(--rust2);box-shadow:0 0 22px var(--rust-glow)}
+.btn-outline-dark{background:transparent;color:var(--ink-dark3);border:1.5px solid var(--border-dark2)}
+.btn-outline-dark:hover{border-color:var(--rust);color:var(--rust)}
+.btn-outline-light{background:transparent;color:var(--ink-light3);border:1.5px solid var(--border-milk)}
+.btn-outline-light:hover{border-color:var(--rust);color:var(--rust)}
+
+/* ==============================
+   ABOUT — milk
+   ============================== */
+#about{background:var(--milk)}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5rem;
+  align-items:start;
 }
 
-.btn-primary:hover{
-  background:transparent;
-  color:var(--accent);
-  box-shadow:0 0 20px var(--glow);
+.about-bio p{
+  font-size:0.975rem;
+  color:var(--ink-light2);
+  font-weight:300;
+  margin-bottom:1.25rem;
+  line-height:1.85;
 }
 
-.btn-ghost{
-  background:transparent;
-  color:var(--ink-mid);
-  border:1px solid var(--border2);
-}
+.about-bio p strong{color:var(--ink-light);font-weight:500}
 
-.btn-ghost:hover{
-  border-color:var(--accent);
-  color:var(--accent);
-  background:var(--glow);
-}
+.chip-row{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1.5rem}
 
-/* ── SECTION HEADER ── */
-.sec-header{margin-bottom:3rem}
-
-.sec-label{
+.chip{
   font-family:var(--mono);
-  font-size:0.72rem;
-  color:var(--accent);
-  letter-spacing:0.14em;
+  font-size:0.63rem;
+  letter-spacing:0.07em;
   text-transform:uppercase;
-  margin-bottom:0.6rem;
-  display:flex;
-  align-items:center;
-  gap:0.75rem;
+  padding:0.28rem 0.72rem;
+  border:1px solid var(--border-milk);
+  color:var(--ink-light3);
+  transition:all 0.2s;
 }
 
-.sec-label::after{
-  content:'';
-  flex:1;
-  height:1px;
-  background:var(--border);
-  max-width:60px;
-}
+.chip.hi,.chip:hover{border-color:var(--rust);color:var(--rust);background:rgba(200,72,46,0.05)}
 
-.sec-title{
+.tl-heading{
   font-family:var(--serif);
-  font-size:clamp(1.8rem,4vw,2.4rem);
-  font-weight:800;
-  color:var(--ink);
-  letter-spacing:-0.02em;
-  line-height:1.1;
+  font-size:1rem;
+  font-weight:700;
+  color:var(--ink-light);
+  margin-bottom:1.25rem;
+  padding-bottom:0.75rem;
+  border-bottom:1px solid var(--border-milk);
 }
 
-/* ── TIMELINE ── */
-.timeline{position:relative;padding-left:1.5rem}
-
-.timeline::before{
-  content:'';
-  position:absolute;
-  left:0;top:0;bottom:0;
-  width:1px;
-  background:linear-gradient(to bottom, var(--accent), var(--border), transparent);
-}
+.timeline{position:relative}
 
 .tl-item{
+  display:grid;
+  grid-template-columns:88px 1fr;
+  gap:1rem;
+  padding-bottom:1.75rem;
   position:relative;
-  padding-bottom:2.5rem;
-  padding-left:1.5rem;
 }
 
-.tl-item::before{
+.tl-item::after{
   content:'';
   position:absolute;
-  left:-5px;
-  top:6px;
-  width:10px;height:10px;
-  border-radius:50%;
-  background:var(--bg);
-  border:1.5px solid var(--accent);
+  left:87px;top:8px;bottom:0;
+  width:1px;background:var(--border-milk);
 }
 
-.tl-item.active::before{
-  background:var(--accent);
-  box-shadow:0 0 12px var(--glow);
-}
+.tl-item:last-child::after{display:none}
 
 .tl-date{
   font-family:var(--mono);
-  font-size:0.72rem;
-  color:var(--accent2);
-  letter-spacing:0.08em;
-  margin-bottom:0.3rem;
+  font-size:0.6rem;
+  color:var(--ink-light4);
+  text-align:right;
+  padding-right:1rem;
+  padding-top:0.15rem;
+  line-height:1.4;
 }
 
-.tl-title{
-  font-family:var(--serif);
-  font-size:1.05rem;
-  font-weight:700;
-  color:var(--ink);
-  margin-bottom:0.3rem;
-}
+.tl-body{padding-left:1.25rem;position:relative}
 
-.tl-sub{
-  font-size:0.875rem;
-  color:var(--ink-mid);
-  font-weight:300;
-}
-
-/* ── RESEARCH CARDS ── */
-.research-stack{display:flex;flex-direction:column;gap:1.5rem}
-
-.r-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:2rem;
-  position:relative;
-  overflow:hidden;
-  transition:border-color 0.3s, transform 0.3s;
-}
-
-.r-card::before{
+.tl-body::before{
   content:'';
   position:absolute;
-  top:0;left:0;right:0;
-  height:2px;
-  background:linear-gradient(90deg, var(--accent), var(--accent2));
-  opacity:0;
-  transition:opacity 0.3s;
+  left:-4.5px;top:7px;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--milk);
+  border:1.5px solid var(--rust);
 }
 
-.r-card:hover{
-  border-color:var(--border2);
-  transform:translateY(-2px);
+.tl-title{font-size:0.9rem;font-weight:500;color:var(--ink-light);margin-bottom:0.15rem}
+.tl-org{font-family:var(--mono);font-size:0.62rem;color:var(--rust);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.35rem}
+.tl-desc{font-size:0.84rem;color:var(--ink-light3);font-weight:300;line-height:1.7}
+
+/* ==============================
+   RESEARCH — dark
+   ============================== */
+#research{background:var(--dark)}
+
+.research-list{margin-top:0.5rem}
+
+.r-item{
+  display:grid;
+  grid-template-columns:56px 1fr;
+  gap:2rem;
+  padding:2rem 0;
+  border-bottom:1px solid var(--border-dark);
 }
 
-.r-card:hover::before{opacity:1}
+.r-item:first-child{border-top:1px solid var(--border-dark)}
 
-.r-card-top{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:1rem;
-  margin-bottom:0.75rem;
-  flex-wrap:wrap;
+.r-num{
+  font-family:var(--serif);
+  font-size:2rem;
+  font-weight:900;
+  font-style:italic;
+  color:rgba(232,234,242,0.05);
+  line-height:1;
+  padding-top:0.3rem;
 }
 
-.r-badges{display:flex;gap:0.5rem;flex-wrap:wrap}
+.r-meta{display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;margin-bottom:0.65rem}
 
 .badge{
   font-family:var(--mono);
-  font-size:0.65rem;
-  font-weight:500;
-  padding:0.2rem 0.65rem;
-  border-radius:3px;
-  letter-spacing:0.06em;
+  font-size:0.58rem;
+  letter-spacing:0.07em;
   text-transform:uppercase;
+  padding:0.2rem 0.6rem;
+  border-radius:2px;
 }
 
-.badge-venue{
-  background:rgba(79,158,255,0.12);
-  color:var(--accent);
-  border:1px solid rgba(79,158,255,0.25);
-}
+.badge-review{background:rgba(200,72,46,0.12);color:var(--rust);border:1px solid rgba(200,72,46,0.28)}
+.badge-ongoing{background:rgba(196,154,60,0.1);color:var(--gold);border:1px solid rgba(196,154,60,0.28)}
+.badge-venue{background:rgba(232,234,242,0.05);color:var(--ink-dark3);border:1px solid var(--border-dark2)}
 
-.badge-review{
-  background:rgba(255,200,0,0.08);
-  color:#f0c040;
-  border:1px solid rgba(255,200,0,0.2);
-}
+.r-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink-dark);line-height:1.3;margin-bottom:0.35rem}
+.r-authors{font-size:0.78rem;color:var(--ink-dark4);font-style:italic;margin-bottom:0.75rem}
+.r-desc{font-size:0.875rem;color:var(--ink-dark2);font-weight:300;line-height:1.8;margin-bottom:0.9rem}
 
-.badge-ongoing{
-  background:rgba(0,229,176,0.08);
-  color:var(--accent2);
-  border:1px solid rgba(0,229,176,0.2);
-}
-
-.r-title{
-  font-family:var(--serif);
-  font-size:1.15rem;
-  font-weight:700;
-  color:var(--ink);
-  line-height:1.3;
-  margin-bottom:0.5rem;
-}
-
-.r-authors{
-  font-size:0.82rem;
-  color:var(--ink-soft);
-  font-style:italic;
-  margin-bottom:0.75rem;
-}
-
-.r-desc{
-  font-size:0.9rem;
-  color:var(--ink-mid);
-  font-weight:300;
-  line-height:1.75;
-  margin-bottom:1rem;
-}
-
-/* ── METRICS ROW ── */
-.metrics{
-  display:flex;
-  flex-wrap:wrap;
-  gap:0.6rem;
-  margin-bottom:1rem;
-}
+.metrics{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.9rem}
 
 .metric{
-  background:var(--bg3);
-  border:1px solid var(--border);
-  border-radius:4px;
-  padding:0.35rem 0.75rem;
   font-family:var(--mono);
+  font-size:0.66rem;
+  padding:0.22rem 0.65rem;
+  border:1px solid var(--border-dark2);
+  color:var(--ink-dark3);
+  background:var(--dark2);
 }
 
-.metric-val{
-  font-size:0.88rem;
-  font-weight:500;
-  color:var(--accent2);
-}
+.metric strong{color:var(--rust)}
 
-.metric-label{
-  font-size:0.68rem;
-  color:var(--ink-soft);
-  margin-left:0.3rem;
-}
-
-.r-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1rem}
+.r-tags{display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:0.9rem}
 
 .tag{
-  font-size:0.72rem;
-  padding:0.2rem 0.6rem;
-  border-radius:3px;
-  background:var(--bg3);
-  color:var(--ink-soft);
-  border:1px solid var(--border);
-  font-weight:400;
+  font-family:var(--mono);
+  font-size:0.6rem;
+  padding:0.16rem 0.52rem;
+  background:var(--dark2);
+  color:var(--ink-dark3);
+  border:1px solid var(--border-dark);
 }
-
-.r-links{display:flex;gap:1rem;flex-wrap:wrap}
 
 .r-link{
   font-family:var(--mono);
-  font-size:0.75rem;
-  color:var(--accent);
+  font-size:0.68rem;
+  color:var(--rust);
   text-decoration:none;
-  display:flex;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  display:inline-flex;
   align-items:center;
-  gap:0.35rem;
-  transition:color 0.2s;
+  gap:0.4rem;
+  border-bottom:1px solid transparent;
+  transition:border-color 0.2s;
+  margin-right:1.5rem;
+  padding-bottom:1px;
 }
 
-.r-link:hover{color:var(--accent2)}
+.r-link:hover{border-color:var(--rust)}
 
-.r-link::before{content:'→';font-size:0.8rem}
+/* ==============================
+   PROJECTS — milk
+   ============================== */
+#projects{background:var(--milk2)}
 
-/* ── PROJECTS ── */
 .proj-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:1.25rem;
+  grid-template-columns:repeat(2,1fr);
+  gap:1.5px;
+  background:var(--border-milk);
+  border:1.5px solid var(--border-milk);
+  margin-top:0.5rem;
 }
 
 .proj-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:1.75rem;
-  transition:border-color 0.3s, transform 0.3s;
+  background:var(--milk);
+  padding:2.25rem 2rem;
+  transition:background 0.25s;
   position:relative;
   overflow:hidden;
 }
 
-.proj-card:hover{
-  border-color:var(--border2);
-  transform:translateY(-3px);
+.proj-card:hover{background:var(--milk2)}
+
+.proj-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;
+  width:3px;height:0;
+  background:var(--rust);
+  transition:height 0.4s ease;
 }
+
+.proj-card:hover::before{height:100%}
 
 .proj-num{
   font-family:var(--mono);
-  font-size:0.65rem;
-  color:var(--ink-soft);
-  margin-bottom:1rem;
+  font-size:0.6rem;
+  color:var(--ink-light4);
+  letter-spacing:0.1em;
+  margin-bottom:1.25rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.proj-live{
+  font-family:var(--mono);
+  font-size:0.56rem;
+  color:var(--rust);
+  border:1px solid rgba(200,72,46,0.35);
+  padding:0.12rem 0.5rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+
+.proj-title{font-family:var(--serif);font-size:1.2rem;font-weight:700;color:var(--ink-light);line-height:1.25;margin-bottom:0.4rem}
+.proj-label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--rust);margin-bottom:0.75rem}
+.proj-desc{font-size:0.875rem;color:var(--ink-light3);font-weight:300;line-height:1.75;margin-bottom:1.25rem}
+
+.proj-stack{display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:1.25rem}
+
+.tag-light{
+  font-family:var(--mono);
+  font-size:0.6rem;
+  padding:0.16rem 0.52rem;
+  background:var(--milk2);
+  color:var(--ink-light3);
+  border:1px solid var(--border-milk);
+}
+
+.proj-link{
+  font-family:var(--mono);
+  font-size:0.66rem;
+  color:var(--ink-light3);
+  text-decoration:none;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  display:inline-flex;
+  align-items:center;
+  gap:0.4rem;
+  transition:color 0.2s;
+}
+
+.proj-link:hover{color:var(--rust)}
+
+.proj-card.ghost{
+  background:transparent;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:1.1rem;
+  border:none;
+}
+
+.proj-card.ghost::before{display:none}
+
+/* ==============================
+   CONTACT — dark
+   ============================== */
+#contact{background:var(--dark2)}
+
+.contact-wrap{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5rem;
+  align-items:start;
+}
+
+.contact-heading{
+  font-family:var(--serif);
+  font-size:clamp(2.8rem,6vw,4.5rem);
+  font-weight:900;
+  color:var(--ink-dark);
+  line-height:1.05;
+  letter-spacing:-0.03em;
+  margin-bottom:1.5rem;
+}
+
+.contact-heading em{color:var(--rust);font-style:italic}
+
+.contact-bio{font-size:0.975rem;color:var(--ink-dark3);font-weight:300;line-height:1.85;margin-bottom:2rem}
+
+.contact-email{
+  font-family:var(--serif);
+  font-size:1.2rem;
+  color:var(--ink-dark);
+  text-decoration:none;
+  font-weight:700;
+  border-bottom:2px solid var(--rust);
+  padding-bottom:0.15rem;
+  transition:color 0.2s;
+  display:inline-block;
+}
+
+.contact-email:hover{color:var(--rust)}
+
+.contact-links{
+  display:flex;
+  flex-direction:column;
+  gap:1px;
+  background:var(--border-dark);
+  border:1px solid var(--border-dark);
+  margin-top:0.5rem;
+}
+
+.c-link{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  padding:1.1rem 1.25rem;
+  background:var(--dark);
+  text-decoration:none;
+  transition:background 0.2s;
 }
 
-.proj-dot{
-  width:6px;height:6px;
-  border-radius:50%;
-  background:var(--accent2);
-}
+.c-link:hover{background:var(--dark3)}
 
-.proj-title{
-  font-family:var(--serif);
-  font-size:1.05rem;
-  font-weight:700;
-  color:var(--ink);
-  margin-bottom:0.5rem;
-  line-height:1.3;
-}
+.c-link-label{font-family:var(--mono);font-size:0.6rem;color:var(--ink-dark4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.2rem}
+.c-link-val{font-size:0.875rem;color:var(--ink-dark);font-weight:400}
+.c-link-arrow{color:var(--rust);font-size:0.95rem;transition:transform 0.2s}
+.c-link:hover .c-link-arrow{transform:translateX(4px)}
 
-.proj-desc{
-  font-size:0.86rem;
-  color:var(--ink-mid);
-  font-weight:300;
-  margin-bottom:1rem;
-  line-height:1.7;
-}
-
-.proj-stack{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.25rem}
-
-/* ── CONTACT ── */
-.contact-row{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:1rem;
-  margin-top:2rem;
-}
-
-.contact-card{
+/* FOOTER */
+footer{
+  background:var(--dark);
+  border-top:1px solid var(--border-dark);
+  padding:1.75rem clamp(2rem,6vw,5rem);
   display:flex;
   align-items:center;
-  gap:1rem;
-  padding:1.25rem;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  text-decoration:none;
-  transition:border-color 0.25s, background 0.25s;
+  justify-content:space-between;
+  scroll-snap-align:none;
 }
 
-.contact-card:hover{
-  border-color:var(--accent);
-  background:var(--glow);
+.footer-note{font-family:var(--mono);font-size:0.6rem;color:var(--ink-dark4);letter-spacing:0.08em;text-transform:uppercase}
+.footer-logo{font-family:var(--serif);font-size:1rem;color:var(--ink-dark4);font-weight:900;font-style:italic}
+
+/* REVEAL */
+.fade-up{opacity:0;transform:translateY(26px);transition:opacity 0.65s ease,transform 0.65s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .hero-right{display:none}
+  .hero-left{width:100%;padding-right:clamp(2rem,6vw,5.5rem)}
+  .about-grid{grid-template-columns:1fr}
+  .r-item{grid-template-columns:40px 1fr;gap:1.25rem}
+  .r-num{font-size:1.4rem}
+  .proj-grid{grid-template-columns:1fr}
+  .contact-wrap{grid-template-columns:1fr;gap:2.5rem}
+  #side-nav{display:none}
 }
 
-.cc-icon{
-  width:38px;height:38px;
-  border-radius:6px;
-  background:var(--bg3);
-  border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
-
-.cc-icon svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-
-.cc-label{font-family:var(--mono);font-size:0.65rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.08em}
-.cc-val{font-size:0.875rem;color:var(--ink);font-weight:500}
-
-/* ── FOOTER ── */
-footer{
-  text-align:center;
-  padding:3rem 1rem 2rem;
-  font-family:var(--mono);
-  font-size:0.72rem;
-  color:var(--ink-soft);
-  border-top:1px solid var(--border);
-  position:relative;
-  z-index:1;
-}
-
-footer span{color:var(--accent)}
-
-/* ── SCROLL ANIMATIONS ── */
-.reveal{
-  opacity:0;
-  transform:translateY(24px);
-  transition:opacity 0.65s ease, transform 0.65s ease;
-}
-
-.reveal.visible{
-  opacity:1;
-  transform:translateY(0);
-}
-
-/* ── RESPONSIVE ── */
-@media(max-width:640px){
-  .nav-links{gap:1rem}
-  .nav-links a{font-size:0.7rem}
-  .hero-name{font-size:2.8rem}
+@media(max-width:600px){
+  .nav-links{display:none}
+  section{padding:90px 1.5rem 60px}
+  .hero-name{font-size:3rem}
+  .hero-name2{font-size:2.5rem}
+  #home{padding:0}
+  .hero-left{padding:100px 1.5rem 80px}
 }
 </style>
 </head>
 <body>
 
-<div class="grid-bg"></div>
+<!-- SIDE NAV -->
+<nav id="side-nav">
+  <a href="#home" class="sn-wrap active" data-section="home"><span class="sn-label">Home</span><span class="sn-dot"></span></a>
+  <a href="#about" class="sn-wrap" data-section="about"><span class="sn-label">About</span><span class="sn-dot"></span></a>
+  <a href="#research" class="sn-wrap" data-section="research"><span class="sn-label">Research</span><span class="sn-dot"></span></a>
+  <a href="#projects" class="sn-wrap" data-section="projects"><span class="sn-label">Projects</span><span class="sn-dot"></span></a>
+  <a href="#contact" class="sn-wrap" data-section="contact"><span class="sn-label">Contact</span><span class="sn-dot"></span></a>
+</nav>
 
-<nav>
-  <a class="nav-logo" href="#home">S<span>.</span>Adetoro</a>
+<!-- TOP NAV -->
+<header id="top-nav" class="dark-nav">
+  <a class="nav-logo" href="#home">Damilola<em>.</em></a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#research">Research</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-</nav>
+</header>
 
-<main>
+<!-- HERO — dark with right-side photo -->
+<section id="home" class="s-dark" data-nav="dark">
+  <!-- RIGHT: photo pane -->
+  <div class="hero-right">
+    <!--
+      TO ADD YOUR PHOTO:
+      Remove the .hero-photo-placeholder div below and replace with:
+      <img src="your-photo.jpg" class="hero-photo-img" alt="Simbiat Adetoro"/>
+    -->
+    <!-- <div class="hero-photo-placeholder"></div> -->
+     <img src="me.jpeg" class="hero-photo-img" alt="Simbiat Adetoro"/>
+  </div>
 
-  <!-- HERO -->
-  <section id="home">
-    <div class="hero-eyebrow">AI Researcher &amp; Engineer</div>
-    <h1 class="hero-name">Simbiat<br><span class="highlight">Adetoro</span></h1>
-    <p class="hero-title">Building AI that works where it matters most.</p>
-    <p class="hero-bio">
-      Graduate researcher at <strong>Carnegie Mellon University Africa</strong> working at the intersection
-      of <strong>deep learning and medical imaging</strong>. My research focuses on making diagnostic AI
-      accurate, efficient, and deployable in low-resource clinical settings across Africa.
+  <!-- LEFT: text -->
+  <div class="hero-left">
+    <div class="hero-greeting">Hello, I am</div>
+    <h1 class="hero-name">Damilola Simbiat</h1>
+    <div class="hero-name2">Adetoro</div>
+    <p class="hero-role">
+      AI Researcher and Engineer building <strong>diagnostic AI for healthcare settings where it matters most</strong>. Graduate researcher at Carnegie Mellon University. Reviewer, Deep Learning Indaba 2026.
     </p>
-  
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="https://drive.google.com/file/d/1KTG6th-OhvYrNg18l3YJzNda1S8sUfTA/view?usp=sharing" target="_blank">↓ Download CV</a>
-      <a class="btn btn-ghost" href="https://github.com/joyinola" target="_blank">GitHub</a>
-      <a class="btn btn-ghost" href="https://linkedin.com/in/damilolaadetoro" target="_blank">LinkedIn</a>
-      <a class="btn btn-ghost" href="mailto:damilolaadetoro1@gmail.com">Email</a>
+    <div class="hero-btns">
+      <a class="btn btn-solid" href="https://drive.google.com/file/d/1KTG6th-OhvYrNg18l3YJzNda1S8sUfTA/view?usp=sharing" target="_blank">Download CV</a>
+      <a class="btn btn-outline-dark" href="#research">View Research</a>
+      <a class="btn btn-outline-dark" href="#contact">Get in Touch</a>
     </div>
-  </section>
+    <a href="#about" class="hero-scroll">Scroll Down</a>
+  </div>
+</section>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="sec-header reveal">
-      <div class="sec-label">Background</div>
-      <h2 class="sec-title">The Story So Far</h2>
-    </div>
+<!-- ABOUT — milk -->
+<section id="about" class="s-milk" data-nav="light">
+  <div class="section-inner">
+    <div class="section-tag fade-up">About Me</div>
+    <div class="about-grid">
 
-    <div class="timeline reveal">
-
-      <div class="tl-item active">
-        <div class="tl-date">2025 — Present</div>
-        <div class="tl-title">Graduate Researcher · Carnegie Mellon University Africa</div>
-        <div class="tl-sub">Researching deep learning for medical imaging — brain tumor classification, diabetic retinopathy  screening, and MRI reconstruction for resource-limited settings.</div>
+      <div class="about-bio fade-up">
+        <p>I am a graduate researcher at <strong>Carnegie Mellon University Africa</strong> working at the intersection of deep learning and medical imaging. My research focuses on making diagnostic AI accurate, efficient, and deployable in low-resource clinical settings.</p>
+        <p>My work spans brain tumor classification, diabetic retinopathy screening, breast cancer risk triage, and MRI reconstruction for hospitals where high-field scanners and specialist care are scarce. I believe that building solutions for low resource setting is building a solution that works anywhere</p>
+        <p>Before graduate school, I spent years building production systems with <strong>Django</strong> and <strong>FastAPI</strong> — engineering experience that now informs how I design AI systems that move from notebooks to real-world deployment.</p>
+        
+        <div class="chip-row">
+          <span class="chip hi">Medical Imaging</span>
+          <span class="chip hi">Deep Learning</span>
+          <span class="chip hi">Computer Vision</span>
+          <span class="chip">Edge AI</span>
+          <span class="chip">PyTorch</span>
+          <span class="chip">FastAPI</span>
+          <span class="chip">Django</span>
+          <span class="chip">Python</span>
+        </div>
       </div>
 
-      <div class="tl-item">
-        <div class="tl-date">2024-2025</div>
-        <div class="tl-title">Software Engineer — Backend</div>
-        <div class="tl-sub">Built production systems with Django and FastAPI. Shipped ToGo, a real-time ridesharing platform still in active use, with WebSocket-powered live chat, JWT + 2FA auth, and cloud deployment.</div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-date">2018 — 2024</div>
-        <div class="tl-title">B.Eng. Electrical Electronic Engineering</div>
-        <div class="tl-sub">Undergraduate studies. Developed a strong foundation in software engineering, algorithms, and systems — the base that now grounds my AI research work.</div>
+      <div class="fade-up">
+        <div class="tl-heading">Work and Education</div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-date">2025<br>Present</div>
+            <div class="tl-body">
+              <div class="tl-title">Graduate Researcher</div>
+              <div class="tl-org">Carnegie Mellon University</div>
+              <div class="tl-desc">Deep learning for medical imaging.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">2024<br>2025</div>
+            <div class="tl-body">
+              <div class="tl-title">Software Engineer</div>
+              <div class="tl-org">Industry</div>
+              <div class="tl-desc">Built production systems with Django and FastAPI. Shipped ToGo, a ridesharing platform still in active use.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">2018<br>2024</div>
+            <div class="tl-body">
+              <div class="tl-title">B.Sc. Computer Science</div>
+              <div class="tl-org">Undergraduate Studies</div>
+              <div class="tl-desc">Six-year foundation in software engineering, algorithms, and systems.</div>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- RESEARCH -->
-  <section id="research">
-    <div class="sec-header reveal">
-      <div class="sec-label">Publications</div>
-      <h2 class="sec-title">Research</h2>
-    </div>
+<!-- RESEARCH — dark -->
+<section id="research" class="s-dark" data-nav="dark">
+  <div class="section-inner">
+    <div class="section-tag fade-up">Publications and Preprints</div>
+    <div class="research-list">
 
-    <div class="research-stack">
-
-      <!-- FPN-Mamba -->
-      <div class="r-card reveal">
-        <div class="r-card-top">
-          <div class="r-badges">
+      <div class="r-item fade-up">
+        <div class="r-num">01</div>
+        <div class="r-content">
+          <div class="r-meta">
             <span class="badge badge-review">Under Review</span>
+            <span class="badge badge-venue">Brain Tumor Classification</span>
           </div>
-          <div class="r-badges">
-            <span class="badge badge-venue">Brain Tumor · MRI Classification</span>
+          <div class="r-title">FPN-Mamba: A Feature Pyramid Network with Bidirectional State Space Models for Medical MRI Image Classification</div>
+          <div class="r-authors"> Adetoro Damilola Simbiat, Samuel Akinwumi Adeniji &middot; Carnegie Mellon University</div>
+          <div class="r-desc">Integrates a Feature Pyramid Network with Bidirectional Mamba SSMs for multi-scale MRI classification. A LocalityMixing block at each pyramid level fuses depthwise local convolution with global Mamba context via a learned gate, preserving fine spatial structure in linear time O(L). Applied to medulloblastoma screening, surpassing InceptentionNet on four of five metrics.</div>
+          <div class="metrics">
+            <div class="metric"><strong>98.42%</strong> Accuracy</div>
+            <div class="metric"><strong>95.51%</strong> F1</div>
+            <div class="metric"><strong>97.71%</strong> Sensitivity</div>
+            <div class="metric"><strong>96.67%</strong> Specificity</div>
+            <div class="metric"><strong>99.16%</strong> AUC</div>
           </div>
-        </div>
-        <div class="r-title">FPN-Mamba: A Feature Pyramid Network with Bidirectional State Space Models for Medical MRI Image Classification</div>
-        <div class="r-authors">Simbiat Damilola Adetoro, Samuel Akinwumi Adeniji · Carnegie Mellon University</div>
-        <div class="r-desc">
-          Integrates a Feature Pyramid Network with Bidirectional Mamba State Space Models for multi-scale MRI classification. A LocalityMixing block at each pyramid level fuses local depthwise convolution with global Mamba context via a learned gate — preserving fine spatial structure while operating in linear time O(L) instead of the quadratic O(L²) cost of self-attention. Applied to medulloblastoma screening (the most common malignant brain tumor in children), the model surpasses the InceptentionNet baseline on four of five metrics.
-        </div>
-        <div class="metrics">
-          <div class="metric"><span class="metric-val">98.42%</span><span class="metric-label">Accuracy</span></div>
-          <div class="metric"><span class="metric-val">95.51%</span><span class="metric-label">F1-Score</span></div>
-          <div class="metric"><span class="metric-val">97.71%</span><span class="metric-label">Sensitivity</span></div>
-          <div class="metric"><span class="metric-val">96.67%</span><span class="metric-label">Specificity</span></div>
-          <div class="metric"><span class="metric-val">99.16%</span><span class="metric-label">AUC</span></div>
-        </div>
-        <div class="r-tags">
-          <span class="tag">Feature Pyramid Network</span>
-          <span class="tag">Mamba / SSM</span>
-          <span class="tag">Brain Tumor</span>
-          <span class="tag">Medulloblastoma</span>
-          <span class="tag">Medical Imaging</span>
-          <span class="tag">EfficientNet-B2</span>
-        </div>
-        <div class="r-links">
-          <a class="r-link" href="https://github.com/Tech-sam-90/fpn-inceptentionnet" target="_blank">Code</a>
+          <div class="r-tags">
+            <span class="tag">Feature Pyramid Network</span><span class="tag">Mamba / SSM</span><span class="tag">Medulloblastoma</span><span class="tag">EfficientNet-B2</span><span class="tag">GeM Pooling</span>
+          </div>
+          <a class="r-link" href="https://github.com/Tech-sam-90/fpn-inceptentionnet" target="_blank">Code &rarr;</a>
         </div>
       </div>
 
-      <!-- DR/DME -->
-      <div class="r-card reveal">
-        <div class="r-card-top">
-          <div class="r-badges">
+      <div class="r-item fade-up">
+        <div class="r-num">02</div>
+        <div class="r-content">
+          <div class="r-meta">
             <span class="badge badge-review">Under Review</span>
             <span class="badge badge-venue">IJCAI-ECAI 2026</span>
           </div>
-        </div>
-        <div class="r-title">Resource-Efficient Two-Stage Diabetic Retinopathy and Macular Edema Screening via Cascade Classification and Offline Mobile Deployment</div>
-        <div class="r-authors">Adetoro Simbiat Damilola, Lobago Moan, Godwill Nkwain Nyong, Boniface Godwin · Carnegie Mellon University Africa</div>
-        <div class="r-desc">
-          A two-stage cascade framework for joint DR severity grading and DME detection, designed for CPU-only deployment in low-resource clinics. Module 1 performs five-class DR grading (MobileNetV2, F1=0.726); its prediction serves as a clinically motivated auxiliary input to Module 2, a PCA-compressed dual-backbone soft-voting ensemble for binary DME detection. The full pipeline is packaged as <strong>DR-tictation</strong> — an offline mobile app that delivers simultaneous DR and DME outputs in under one second via a clip-on smartphone fundus lens, with no GPU or internet required.
-        </div>
-        <div class="metrics">
-          <div class="metric"><span class="metric-val">0.726</span><span class="metric-label">DR F1</span></div>
-          <div class="metric"><span class="metric-val">0.803</span><span class="metric-label">DME F1</span></div>
-          <div class="metric"><span class="metric-val">0.952</span><span class="metric-label">ROC-AUC</span></div>
-          <div class="metric"><span class="metric-val">4MB</span><span class="metric-label">INT8 Model</span></div>
-          <div class="metric"><span class="metric-val">&lt;1s</span><span class="metric-label">Inference</span></div>
-        </div>
-        <div class="r-tags">
-          <span class="tag">Diabetic Retinopathy</span>
-          <span class="tag">Macular Edema</span>
-          <span class="tag">Mobile AI</span>
-          <span class="tag">Edge Deployment</span>
-          <span class="tag">MobileNetV2</span>
-          <span class="tag">LMIC Healthcare</span>
-          <span class="tag">EfficientNet-B2</span>
-        </div>
-        <div class="r-links">
-          <a class="r-link" href="https://github.com/joyinola/AI-Supported-Diabetic-Retinopathy-Diabetic-Macular-Edema-Screening-" target="_blank">Code</a>
+          <div class="r-title">Resource-Efficient Two-Stage Diabetic Retinopathy and Macular Edema Screening via Cascade Classification and Offline Mobile Deployment</div>
+          <div class="r-authors">Adetoro Simbiat Damilola, Lobago Moan, Godwill Nkwain Nyong, Boniface Godwin &middot; Carnegie Mellon University Africa</div>
+          <div class="r-desc">A two-stage cascade framework for joint DR severity grading and DME detection designed for CPU-only deployment in low-resource clinics. Module 1 grades DR severity (MobileNetV2, F1=0.726); its prediction serves as a clinically motivated auxiliary input to Module 2, a PCA-compressed dual-backbone soft-voting ensemble. Packaged as DR-tictation, an offline mobile app delivering outputs in under one second via a clip-on smartphone fundus lens.</div>
+          <div class="metrics">
+            <div class="metric"><strong>0.726</strong> DR F1</div>
+            <div class="metric"><strong>0.803</strong> DME F1</div>
+            <div class="metric"><strong>0.952</strong> ROC-AUC</div>
+            <div class="metric"><strong>4 MB</strong> INT8</div>
+            <div class="metric"><strong>&lt;1s</strong> Inference</div>
+          </div>
+          <div class="r-tags">
+            <span class="tag">Diabetic Retinopathy</span><span class="tag">Macular Edema</span><span class="tag">Mobile AI</span><span class="tag">Edge Deployment</span><span class="tag">MobileNetV2</span><span class="tag">LMIC Healthcare</span>
+          </div>
+          <a class="r-link" href="https://github.com/joyinola/AI-Supported-Diabetic-Retinopathy-Diabetic-Macular-Edema-Screening-" target="_blank">Code &rarr;</a>
         </div>
       </div>
 
-      <!-- Uncertainty MRI -->
-      <div class="r-card reveal">
-        <div class="r-card-top">
-          <div class="r-badges">
-            <span class="badge badge-ongoing">● Ongoing</span>
+      <div class="r-item fade-up">
+        <div class="r-num">03</div>
+        <div class="r-content">
+          <div class="r-meta">
+            <span class="badge badge-ongoing">Ongoing</span>
+            <span class="badge badge-venue">Medical VLM</span>
           </div>
-          <div class="r-badges">
+          <div class="r-title">Cross-modal JEPA for Medical Image-Text Grounding: Learning Spatially and Temporally Structured Representations for Clinical Decision Support</div>
+          <div class="r-authors">Damilola Simbiat Adetoro &middot; Carnegie Mellon University Africa</div>
+          <div class="r-desc">A language-conditioned JEPA framework where the predictor is guided by paired radiology reports rather than predicting hidden patches blindly, forcing the model to learn what clinical descriptions refer to spatially in the image. Pretraining on MIMIC-CXR (227k chest X-ray and report pairs), evaluated on CheXpert, LIDC-IDRI, BraTS, and PathVQA. Targets better spatial grounding and interpretability versus CLIP-based medical VLMs like BioViL and MedCLIP.</div>
+          <div class="r-tags">
+            <span class="tag">JEPA</span><span class="tag">Vision-Language Models</span><span class="tag">Chest X-ray</span><span class="tag">MIMIC-CXR</span><span class="tag">Self-Supervised Learning</span><span class="tag">Spatial Grounding</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="r-item fade-up">
+        <div class="r-num">04</div>
+        <div class="r-content">
+          <div class="r-meta">
+            <span class="badge badge-ongoing">Ongoing</span>
             <span class="badge badge-venue">MRI Reconstruction</span>
           </div>
-        </div>
-        <div class="r-title">Uncertainty-Aware Reconstruction for Low-Field MRI Scans</div>
-        <div class="r-authors">Simbiat Damilola Adetoro et al. · Carnegie Mellon University Africa</div>
-        <div class="r-desc">
-          Ongoing research developing probabilistic deep learning models for enhancing image quality in low-field MRI systems — the type of scanner available in rural African hospitals. Incorporates uncertainty estimation to communicate reconstruction confidence to clinicians, improving reliability and trustworthiness of AI-enhanced scans in settings where high-field MRI is inaccessible.
-        </div>
-        <div class="r-tags">
-          <span class="tag">MRI Reconstruction</span>
-          <span class="tag">Uncertainty Quantification</span>
-          <span class="tag">Low-Resource Healthcare</span>
-          <span class="tag">Probabilistic Deep Learning</span>
-        </div>
-        <div class="r-links">
-          <a class="r-link" href="https://github.com/joyinola/Uncertainty-Aware-Reconstruction-for-Low-Field-MRI-Scans" target="_blank">Code</a>
+          <div class="r-title">Uncertainty-Aware Reconstruction for Low-Field MRI Scans</div>
+          <div class="r-authors">Damilola Simbiat Adetoro et al. &middot; Carnegie Mellon University Africa</div>
+          <div class="r-desc">Probabilistic deep learning models for enhancing image quality in low-field MRI systems available in resource-limited hospitals. Incorporates uncertainty estimation to communicate reconstruction confidence to clinicians, improving reliability of AI-enhanced scans where high-field MRI is inaccessible.</div>
+          <div class="r-tags">
+            <span class="tag">MRI Reconstruction</span><span class="tag">Uncertainty Quantification</span><span class="tag">Low-Resource Healthcare</span><span class="tag">Probabilistic DL</span>
+          </div>
+          <a class="r-link" href="https://github.com/joyinola/Uncertainty-Aware-Reconstruction-for-Low-Field-MRI-Scans" target="_blank">Code &rarr;</a>
         </div>
       </div>
 
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="sec-header reveal">
-      <div class="sec-label">Engineering</div>
-      <h2 class="sec-title">Projects</h2>
-    </div>
-
+<!-- PROJECTS — milk -->
+<section id="projects" class="s-milk" data-nav="light">
+  <div class="section-inner">
+    <div class="section-tag fade-up">Engineering</div>
     <div class="proj-grid">
 
-      <div class="proj-card reveal">
-        <div class="proj-num"><span>01 / Engineering</span><span class="proj-dot"></span></div>
-        <div class="proj-title">ToGo — Ridesharing Platform</div>
-        <div class="proj-desc">Real-time ridesharing app still in active use. Live in-app chat via Django Channels &amp; WebSockets, JWT + TOTP two-factor auth, Cloudinary media, PostgreSQL, deployed on Heroku with Daphne ASGI.</div>
+      <div class="proj-card fade-up">
+        <div class="proj-num"><span>Project 01</span><span class="proj-live">AI + Healthcare</span></div>
+        <div class="proj-title">Breast Cancer Triage</div>
+        <div class="proj-label">Breast Cancer Risk Triage System</div>
+        <div class="proj-desc">Self-screening support app returning a colour-coded risk band (GREEN / YELLOW / RED) with plain-language guidance. Combines a Gradient Boosting model trained on real UCI Wisconsin FNA biopsy data with 8 clinical safety flags grounded in ACS 2023, NICE NG101, and BI-RADS 5th Edition. Flags run independently and can only escalate a result. Deployed via FastAPI and Docker with a full step-by-step UI.</div>
         <div class="proj-stack">
-          <span class="tag">Django</span><span class="tag">WebSockets</span><span class="tag">Redis</span><span class="tag">PostgreSQL</span><span class="tag">JWT + 2FA</span>
+          <span class="tag-light">GradientBoosting</span><span class="tag-light">FastAPI</span><span class="tag-light">Docker</span><span class="tag-light">Nginx</span><span class="tag-light">scikit-learn</span>
         </div>
-        <a class="btn btn-ghost" href="https://github.com/joyinola/Django-Ridesharing-App" target="_blank" style="font-size:0.78rem;padding:0.45rem 1rem;">View Code</a>
+        <a class="proj-link" href="https://github.com/joyinola/HEALTH_TRIAGE_SYSTEM" target="_blank">View on GitHub &rarr;</a>
       </div>
 
-      <div class="proj-card reveal">
-        <div class="proj-num"><span>02 / Engineering</span><span class="proj-dot"></span></div>
-        <div class="proj-title">DR-tictation — Mobile Screening App</div>
-        <div class="proj-desc">Offline-first mobile application packaging the two-stage DR/DME pipeline. Runs entirely on-device with no internet required — designed for eye specialists in rural clinics with a clip-on smartphone fundus lens.</div>
+      <div class="proj-card fade-up">
+        <div class="proj-num"><span>Project 02</span><span class="proj-live">Live Product</span></div>
+        <div class="proj-title">ToGo</div>
+        <div class="proj-label">Real-Time Ridesharing Platform</div>
+        <div class="proj-desc">Ridesharing app still in active use. Built with Django Channels for live WebSocket chat between riders and drivers, JWT plus TOTP two-factor authentication, Cloudinary media, PostgreSQL, and ASGI deployment via Daphne on Heroku.</div>
         <div class="proj-stack">
-          <span class="tag">Mobile AI</span><span class="tag">Edge Inference</span><span class="tag">MobileNetV2</span><span class="tag">INT8 Quantisation</span>
+          <span class="tag-light">Django</span><span class="tag-light">WebSockets</span><span class="tag-light">Redis</span><span class="tag-light">PostgreSQL</span><span class="tag-light">JWT + 2FA</span>
         </div>
-        <a class="btn btn-ghost" href="https://github.com/joyinola/AI-Supported-Diabetic-Retinopathy-Diabetic-Macular-Edema-Screening-" target="_blank" style="font-size:0.78rem;padding:0.45rem 1rem;">View Code</a>
+        <a class="proj-link" href="https://github.com/joyinola/Django-Ridesharing-App" target="_blank">View on GitHub &rarr;</a>
       </div>
 
-      <div class="proj-card reveal">
-        <div class="proj-num"><span>03 / Engineering</span><span class="proj-dot"></span></div>
+      <div class="proj-card fade-up">
+        <div class="proj-num"><span>Project 03</span></div>
         <div class="proj-title">Customer Management System</div>
-        <div class="proj-desc">Full-featured CRM for managing customer records and linked projects. Django backend with environment-based config, user authentication, and clean admin interface for business workflows.</div>
+        <div class="proj-label">Backend Engineering</div>
+        <div class="proj-desc">Full-featured CRM for managing customer records and linked projects. Django backend with environment-based config, user authentication, and a clean admin interface for business workflows.</div>
         <div class="proj-stack">
-          <span class="tag">Django</span><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">CRM</span>
+          <span class="tag-light">Django</span><span class="tag-light">Python</span><span class="tag-light">SQLite</span>
         </div>
-        <a class="btn btn-ghost" href="https://github.com/joyinola/Customer-Management-System" target="_blank" style="font-size:0.78rem;padding:0.45rem 1rem;">View Code</a>
+        <a class="proj-link" href="https://github.com/joyinola/Customer-Management-System" target="_blank">View on GitHub &rarr;</a>
+      </div>
+
+      <div class="proj-card ghost fade-up">
+        <div style="font-family:var(--mono);font-size:0.6rem;color:var(--ink-light4);letter-spacing:0.1em;text-transform:uppercase">All Projects</div>
+        <div style="font-family:var(--serif);font-size:1.5rem;font-weight:900;font-style:italic;color:var(--ink-light2);line-height:1.1">More on<br>GitHub</div>
+        <div style="font-size:0.875rem;color:var(--ink-light4);font-weight:300">Research code, notebooks, and experiments.</div>
+        <a class="btn btn-outline-light" href="https://github.com/joyinola" target="_blank">github.com/joyinola</a>
       </div>
 
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="sec-header reveal">
-      <div class="sec-label">Get in Touch</div>
-      <h2 class="sec-title">Contact</h2>
+<!-- CONTACT — dark -->
+<section id="contact" class="s-dark" data-nav="dark">
+  <div class="section-inner">
+    <div class="section-tag fade-up">Get In Touch</div>
+    <div class="contact-wrap">
+      <div class="fade-up">
+        <div class="contact-heading">Let's<br><em>Connect.</em></div>
+        <p class="contact-bio">Open to conversations about research collaboration, opportunities in AI and healthcare, and any work at the intersection of machine learning and clinical impact.</p>
+        <a class="contact-email" href="mailto:damilolaadetoro1@gmail.com">Damilola</a>
+      </div>
+      <div class="fade-up">
+        <div class="contact-links">
+          <a class="c-link" href="mailto:=damilolaadetoro1@gmail.com">
+            <div><div class="c-link-label">Email</div><div class="c-link-val">damilolaadetoro1@gmail.com</div></div>
+            <span class="c-link-arrow">&rarr;</span>
+          </a>
+          <a class="c-link" href="https://github.com/joyinola" target="_blank">
+            <div><div class="c-link-label">GitHub</div><div class="c-link-val">github.com/joyinola</div></div>
+            <span class="c-link-arrow">&rarr;</span>
+          </a>
+          <a class="c-link" href="https://linkedin.com/in/damilolaadetoro" target="_blank">
+            <div><div class="c-link-label">LinkedIn</div><div class="c-link-val">Simbiat Damilola Adetoro</div></div>
+            <span class="c-link-arrow">&rarr;</span>
+          </a>
+          <a class="c-link" href="https://drive.google.com/file/d/1KTG6th-OhvYrNg18l3YJzNda1S8sUfTA/view?usp=sharing" target="_blank">
+            <div><div class="c-link-label">CV</div><div class="c-link-val">Download Resume</div></div>
+            <span class="c-link-arrow">&rarr;</span>
+          </a>
+        </div>
+      </div>
     </div>
-    <p class="reveal" style="color:var(--ink-mid);font-weight:300;max-width:480px;margin-bottom:0.5rem">
-      Open to conversations about research, collaboration, and opportunities at the intersection of AI and healthcare.
-    </p>
-    <div class="contact-row reveal">
-
-      <a class="contact-card" href="mailto:damilolaadetoro1@gmail.com">
-        <div class="cc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg></div>
-        <div><div class="cc-label">Email</div><div class="cc-val">damilolaadetoro1@gmail.com</div></div>
-      </a>
-
-      <a class="contact-card" href="https://github.com/joyinola" target="_blank">
-        <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></div>
-        <div><div class="cc-label">GitHub</div><div class="cc-val">joyinola</div></div>
-      </a>
-
-      <a class="contact-card" href="linkedin.com/in/damilolaadetoro" target="_blank">
-        <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
-        <div><div class="cc-label">LinkedIn</div><div class="cc-val">Simbiat Adetoro</div></div>
-      </a>
-
-    </div>
-  </section>
-
-</main>
+  </div>
+</section>
 
 <footer>
-  <span>Simbiat Damilola Adetoro</span> © 2026
+  <span class="footer-note">Simbiat Damilola Adetoro &bull; 2026</span>
+  <span class="footer-logo">SA.</span>
 </footer>
 
 <script>
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
-  });
-}, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+const sections = document.querySelectorAll('section[id]');
+const sideNav = document.getElementById('side-nav');
+const topNav = document.getElementById('top-nav');
+const wraps = document.querySelectorAll('.sn-wrap');
 
-document.querySelectorAll('.reveal').forEach((el, i) => {
-  el.style.transitionDelay = (i % 4) * 0.08 + 's';
-  obs.observe(el);
-});
+const spy = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(!e.isIntersecting) return;
+    const id = e.target.id;
+    const isDark = e.target.dataset.nav === 'dark';
+
+    // active dot
+    wraps.forEach(w => w.classList.remove('active'));
+    const active = document.querySelector(`.sn-wrap[data-section="${id}"]`);
+    if(active) active.classList.add('active');
+
+    // nav theme
+    topNav.className = isDark ? 'dark-nav' : 'light-nav';
+    sideNav.className = isDark ? 'on-dark' : 'on-light';
+  });
+}, {threshold:0.45});
+
+sections.forEach(s => spy.observe(s));
+
+// fade-up
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if(e.isIntersecting){
+      e.target.style.transitionDelay = (i % 3) * 0.09 + 's';
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+
+document.querySelectorAll('.fade-up').forEach(el => revealObs.observe(el));
 </script>
 </body>
 </html>
